@@ -1,10 +1,8 @@
 ﻿#include <iostream>
-#include <windows.h>
 #include <vector>
+#include <windows.h>
 #include <TlHelp32.h>
 #include <winuser.h>
-#include <conio.h>
-#include <sstream>
 
 
 using namespace std;
