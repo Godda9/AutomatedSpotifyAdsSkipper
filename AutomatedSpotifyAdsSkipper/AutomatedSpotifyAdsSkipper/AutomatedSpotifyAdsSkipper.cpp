@@ -39,7 +39,7 @@ void SendCommand(DWORD dwProcessID) {
         DWORD dwPID = 0;
         GetWindowThreadProcessId(hwnd, &dwPID);
         if (dwPID == dwProcessID) {
-            cout << "[DESC]: " << hwnd << " [ID]: " << dwPID << '\n';
+            // cout << "[DESC]: " << hwnd << " [ID]: " << dwPID << '\n';
             HWND EditClass = FindWindowEx(hwnd, NULL, L"Chrome_RenderWidgetHostHWND", NULL);
 
             PostMessage(EditClass, WM_APPCOMMAND, 0, MAKELPARAM(0, APPCOMMAND_MEDIA_PLAY_PAUSE));
@@ -50,31 +50,19 @@ void SendCommand(DWORD dwProcessID) {
 
 
 int main() {
-    cout << "[INFO]: Use R_SHIFT to skip. Do NOT close this window!" << '\n';
-
-    // Cmd
-    string command;
+    string msg = "READY! Use R_SHIFT to skip. Do NOT close this window!";
+    string exec_spotify = "IF EXIST %appdata%\\Spotify\\Spotify.exe (start %appdata%\\Spotify\\Spotify.exe --minimized) ELSE (start spotify --minimized)";
     vector<DWORD> app_ids;
 
+    cout << msg << '\n';
     while (true) {
         if (GetAsyncKeyState(0xA1)) {
             system("cls");
             system("Color 7");
-            Sleep(100);
-
-            command = "taskkill /f /im Spotify.exe";
-            system(command.c_str());
-
-            Sleep(100);
-            system("cls");
-            cout << "[INFO]: Processing spotify: ";
-
-                            /* [!] CHANGE THIS COMMAND [!] */
-            command = "start %appdata%\\Spotify\\Spotify.exe --minimized";
-            // command = "start spotify --minimized";
-                            /* [!] CHANGE THIS COMMAND [!] */
-
-            system(command.c_str());
+            cout << "Processing Spotify";
+            system("taskkill /im Spotify.exe >nul 2>&1");
+            Sleep(1000);      
+            system(exec_spotify.c_str());
 
 
             while (true) {
@@ -88,7 +76,13 @@ int main() {
 
                     system("cls");
                     system("Color A");
-                    cout << "[INFO]: SUCCESS!" << '\n';
+                    for (int x = 3; x > 0; x--) {
+                        cout << "SUCCESS! This msg will disappear in "<< x << " seconds...";
+                        Sleep(1000);
+                        system("cls");
+                    }
+                    system("Color 7");
+                    cout << msg << '\n';
                     break;
                 }
                 else {
