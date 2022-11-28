@@ -70,8 +70,8 @@ int main() {
             cout << "[INFO]: Processing spotify: ";
 
                             /* [!] CHANGE THIS COMMAND [!] */
-            //command = "start %appdata%\\Spotify\\Spotify.exe --minimized";
-            command = "start spotify --minimized";
+            command = "start %appdata%\\Spotify\\Spotify.exe --minimized";
+            // command = "start spotify --minimized";
                             /* [!] CHANGE THIS COMMAND [!] */
 
             system(command.c_str());
