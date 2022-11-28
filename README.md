@@ -1,1 +1,2 @@
 # AutomatedSpotifyAdsSkipper
+Sorry spotify :)
