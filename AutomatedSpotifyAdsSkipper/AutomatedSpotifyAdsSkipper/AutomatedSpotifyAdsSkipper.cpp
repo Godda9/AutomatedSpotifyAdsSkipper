@@ -44,10 +44,10 @@ void SendCommand(DWORD dwProcessID, int switch_arg) {
             switch (switch_arg)
             {
                 case 1:
-                    PostMessage(EditClass, WM_APPCOMMAND, 0, MAKELPARAM(0, APPCOMMAND_MEDIA_PLAY_PAUSE));
+                    PostMessage(EditClass, WM_APPCOMMAND, 0, MAKELPARAM(0, APPCOMMAND_MEDIA_PREVIOUSTRACK));
                     break;
                 case 2:
-                    PostMessage(EditClass, WM_APPCOMMAND, 0, MAKELPARAM(0, APPCOMMAND_MEDIA_PREVIOUSTRACK));
+                    PostMessage(EditClass, WM_APPCOMMAND, 0, MAKELPARAM(0, APPCOMMAND_MEDIA_PLAY_PAUSE));
                     break;
                 case 3:
                     PostMessage(EditClass, WM_APPCOMMAND, 0, MAKELPARAM(0, APPCOMMAND_MEDIA_NEXTTRACK));
@@ -59,26 +59,33 @@ void SendCommand(DWORD dwProcessID, int switch_arg) {
 
 
 int main() {
-    string msg = "1) SHIFT + F1:\tPrevious track\n2) SHIFT + F2:\tNext track\n3) SHIFT + F3:\tSkip ads\n";
+    string msg = "1) SHIFT + F1:\tPrevious track\n2) SHIFT + F2:\tPlay/Pause\n3) SHIFT + F3:\tNext track\n4) SHIFT + F4:\tSkip ads\n";
     string exec_spotify = "IF EXIST %appdata%\\Spotify\\Spotify.exe (start %appdata%\\Spotify\\Spotify.exe --minimized) ELSE (start spotify --minimized)";
     vector<DWORD> app_ids;
 
     cout << msg;
     while (true) {
         if (GetAsyncKeyState(0xA0)) {
+            // F1 Previous track
             if (GetAsyncKeyState(0x70)) {
+                app_ids = vector<DWORD>(getProc());
+                if (app_ids.size() > 4) for (auto& id : app_ids) SendCommand(id, 1);
+                Sleep(500);
+            }
+            // F2 Pause
+            if (GetAsyncKeyState(0x71)) {
                 app_ids = vector<DWORD>(getProc());
                 if (app_ids.size() > 4) for (auto& id : app_ids) SendCommand(id, 2);
                 Sleep(500);
             }
-
-            if (GetAsyncKeyState(0x71)) {
+            // F3 Next track
+            if (GetAsyncKeyState(0x72)) {
                 app_ids = vector<DWORD>(getProc());
                 if (app_ids.size() > 4) for (auto& id : app_ids) SendCommand(id, 3);
                 Sleep(500);
             }
-
-            if (GetAsyncKeyState(0x72)) {
+            // F4 Skip ads
+            if (GetAsyncKeyState(0x73)) {
                 system("cls");
                 system("Color 7");
                 cout << "Processing Spotify";
@@ -92,7 +99,7 @@ int main() {
                         cout << '\n';
                         Sleep(3500);
 
-                        for (auto& id : app_ids) SendCommand(id, 1);
+                        for (auto& id : app_ids) SendCommand(id, 2);
 
                         system("cls");
                         system("Color A");
